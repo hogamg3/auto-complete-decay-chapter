@@ -1,0 +1,218 @@
+local Players = game:GetService("Players")
+local Workspace = game:GetService("Workspace")
+local player = Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local camera = Workspace.CurrentCamera
+local replicatedStorage = game:GetService("ReplicatedStorage")
+local remotes = replicatedStorage:WaitForChild("Remotes")
+local lobbyTeleport = remotes:WaitForChild("LobbyTeleport")
+local StarterGui = game:GetService("StarterGui")
+
+game.StarterGui:SetCore("SendNotification",{
+        Title = "Credits to ocfi/skibidi sigma";
+        Text = "auto complete script loaded";
+        Icon = "15496293370";
+        Duration = 10;
+    })
+
+-- Function to teleport to a position
+local function teleportToPosition(positionCFrame)
+    character:SetPrimaryPartCFrame(positionCFrame)
+    wait(1)
+end
+
+-- Function to focus the camera on a part
+local function focusOnPart(part)
+    camera.CameraType = Enum.CameraType.Scriptable
+    camera.CFrame = CFrame.new(camera.CFrame.Position, part.Position)
+    wait(1)
+end
+
+-- Function to focus the camera on a position
+local function focusOnPosition(cframe)
+    camera.CameraType = Enum.CameraType.Scriptable
+    camera.CFrame = cframe
+    wait(1)
+end
+
+-- Function to activate a ProximityPrompt
+local function activateProximityPrompt(prompt)
+    if prompt then
+        prompt.Enabled = true
+        prompt.HoldDuration = 0
+        fireproximityprompt(prompt)
+    else
+        print("ProximityPrompt not found.")
+    end
+end
+
+-- Define your username and check for Crossbow
+local username = player.Name
+local hasChecked = false
+
+local function checkForCrossbow()
+    if hasChecked then return end
+    hasChecked = true
+
+    -- Find the model with your username in the workspace
+    local model = Workspace:FindFirstChild(username)
+    if model and model:IsA("Model") then
+        -- Look for the "Crossbow" tool inside the model
+        local crossbow = model:FindFirstChild("Crossbow")
+        if crossbow and crossbow:IsA("Tool") then
+            -- Darken the screen and display warning text
+            local gui = Instance.new("ScreenGui", player.PlayerGui)
+            local frame = Instance.new("Frame", gui)
+            frame.Size = UDim2.new(1, 0, 1, 0)
+            frame.BackgroundColor3 = Color3.new(0, 0, 0)
+            frame.BackgroundTransparency = 0
+
+            local textLabel = Instance.new("TextLabel", frame)
+            textLabel.Size = UDim2.new(1, 0, 0.2, 0)
+            textLabel.Position = UDim2.new(0, 0, 0.4, 0)
+            textLabel.BackgroundTransparency = 1
+            textLabel.TextColor3 = Color3.new(1, 1, 1)
+            textLabel.TextScaled = true
+            textLabel.Text = "Do not pick the crossbow when executing the script\nTeleporting To Lobby in 5"
+            wait(1)
+            textLabel.Text = "Do not pick the crossbow when executing the script\nTeleporting To Lobby in 4"
+            wait(1)
+            textLabel.Text = "Do not pick the crossbow when executing the script\nTeleporting To Lobby in 3"
+            wait(1)
+            textLabel.Text = "Do not pick the crossbow when executing the script\nTeleporting To Lobby in 2"
+            wait(1)
+            textLabel.Text = "Do not pick the crossbow when executing the script\nTeleporting To Lobby in 1"
+            wait(1)
+            textLabel.Text = "Do not pick the crossbow when executing the script\nTeleporting To Lobby in 0"
+            wait(1)
+            textLabel.Text = "Teleporting To Lobby."
+            lobbyTeleport:FireServer()
+            return
+        end
+    end
+end
+
+checkForCrossbow()
+
+-- Step 2: Locate and interact with TunnelKey in ItemFolder
+local tunnelKey = Workspace:FindFirstChild("ItemFolder"):FindFirstChild("TunnelKey")
+if tunnelKey then
+    teleportToPosition(tunnelKey.CFrame)
+    focusOnPart(tunnelKey)
+    activateProximityPrompt(tunnelKey:FindFirstChildOfClass("ProximityPrompt"))
+    camera.CameraType = Enum.CameraType.Custom
+    wait(0.5)
+else
+    print("TunnelKey not found in ItemFolder.")
+end
+
+-- Step 3: Teleport to ExitBlock in Bunny > Events > Chase1Event, focus on ColorPart, and interact with prompts
+local exitBlock = Workspace:FindFirstChild("Bunny")
+    :FindFirstChild("Events")
+    :FindFirstChild("Chase1Event")
+    :FindFirstChild("ExitBlock")
+
+if exitBlock then
+    teleportToPosition(exitBlock.CFrame)
+    
+    local handleModel = Workspace:FindFirstChild("Bunny")
+        :FindFirstChild("Events")
+        :FindFirstChild("Chase1Event")
+        :FindFirstChild("Doors_Tunnel")
+        :FindFirstChild("KeyDoor")
+        :FindFirstChild("DoorMain")
+        :FindFirstChild("PromptAttachment")
+    
+    if handleModel then
+        -- Focus on ColorPart and activate proximity prompts in sequence
+        focusOnPosition(CFrame.new(591.343689, 38.9809799, 115.0243, -0.99999994, 0, -1.93715096e-07, 0, 1, 0, 1.93715096e-07, 0, -0.99999994))
+        local proximityPrompt = handleModel:FindFirstChild("ProximityPrompt")
+        local doorPrompt = handleModel:FindFirstChild("DoorPrompt")
+        
+        if proximityPrompt and doorPrompt then
+            -- Activate both prompts, wait 2 seconds, and activate both again
+            activateProximityPrompt(proximityPrompt)
+            wait(0.3)
+            activateProximityPrompt(proximityPrompt)
+            wait(0.3)
+            activateProximityPrompt(doorPrompt)
+            wait(0.5)
+            activateProximityPrompt(doorPrompt)
+            wait(0.5)
+            activateProximityPrompt(proximityPrompt)
+            activateProximityPrompt(doorPrompt)
+            wait(0.5)
+            teleportToPosition(CFrame.new(592.704834, 38.9309883, 126.318413))
+            wait(0.1)
+            teleportToPosition(CFrame.new(592.704834, 38.9309883, 127.318413))
+            wait(0.5)
+            activateProximityPrompt(proximityPrompt)
+            activateProximityPrompt(doorPrompt)
+            wait(0.5)
+            activateProximityPrompt(proximityPrompt)
+            activateProximityPrompt(doorPrompt)
+            wait(0.5)
+            camera.CameraType = Enum.CameraType.Custom
+        else
+            if not proximityPrompt then
+                print("ProximityPrompt not found in HandleModel.")
+            end
+            if not doorPrompt then
+                print("DoorPrompt not found in HandleModel.")
+            end
+        end
+    end
+end
+
+-- Step 1: Initial teleport and Crossbow interaction
+teleportToPosition(CFrame.new(-17.6337643, 16.2810421, -11.5976973))
+local crossbow = Workspace:FindFirstChild("ItemFolder"):FindFirstChild("Crossbow")
+if crossbow then
+    focusOnPart(crossbow)
+    activateProximityPrompt(crossbow:FindFirstChildOfClass("ProximityPrompt"))
+    camera.CameraType = Enum.CameraType.Custom
+end
+
+wait(1)
+teleportToPosition(CFrame.new(1139.78809, 50.4309921, 412.757507))
+local args = {
+    CFrame.new(1139.3577880859375, 51.042335510253906, 416.38616943359375, 0.9919310808181763, 0.00861784815788269, -0.12648527324199677, 0.018554963171482086, 0.9770752787590027, 0.21208423376083374, 0.12541332840919495, -0.2127198576927185, 0.9690314531326294),
+    Vector3.new(1140.041015625, 50.69624328613281, 409.3949890136719),
+    CFrame.new(1139.9083251953125, 50.60262680053711, 409.29498291015625, 0.965938925743103, -0.0000016689300537109375, 0.2587701976299286, 0.2587701976299286, 0.000012755393981933594, -0.9659388661384583, -0.0000016689300537109375, 0.9999999403953552, 0.000012755393981933594)
+}
+game:GetService("Players").LocalPlayer.Character.Crossbow.FireRemote:FireServer(unpack(args))
+
+-- Focus on the specified camera position and activate DoorPrompt
+focusOnPosition(CFrame.new(1140.73108, 51.4309921, 411.811676, 1, 0, 0, 0, 1, 0, 0, 0, 1))
+-- Step 4: Locate VentCover in Bunny > Events > Boarded_EscapeVent_Doors > Vent_Door, and activate DoorPrompt
+local bunny = Workspace:FindFirstChild("Bunny")
+if bunny then
+    local events = bunny:FindFirstChild("Events")
+    if events then
+        local boardedEscapeVentDoors = events:FindFirstChild("Boarded_EscapeVent_Doors")
+        if boardedEscapeVentDoors then
+            local ventDoor = boardedEscapeVentDoors:FindFirstChild("Vent_Door")
+            if ventDoor then
+                local ventCover = ventDoor:FindFirstChild("VentCover")
+                if ventCover then
+                    local attachment = ventCover:FindFirstChild("PromptAttachment")
+                    if attachment then
+                        local doorPrompt = attachment:FindFirstChild("DoorPrompt")
+                        if doorPrompt then
+                            wait(0.3)
+                            activateProximityPrompt(doorPrompt)
+                            wait(0.1)
+                            activateProximityPrompt(doorPrompt)
+                            wait(0.1)
+                            activateProximityPrompt(doorPrompt)
+                        end
+                    end
+                end
+            end
+        end
+    end
+end
+
+-- Step 5: teleport to EscapeTrigger
+camera.CameraType = Enum.CameraType.Custom
+camera.CameraType = Enum.CameraType.Custom
